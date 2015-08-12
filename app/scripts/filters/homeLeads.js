@@ -1,3 +1,5 @@
+'use strict';
+
 angular.module('gameFlowApp')
 	.filter('homeLeads', function() {
 		return function(margin) {
