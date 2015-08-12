@@ -1,0 +1,28 @@
+@import compass/css3
+
+$paper: #f4fdfa
+$home-team: rgba(#0a8, 0.5)
+
+$graph-border: 1px solid darken($paper, 35%)
+
+$default-radius: 8px
+
+=centered($width, $height)
+	position: absolute
+	height: $height
+	width: $width
+	top: 50%
+	left: 50%
+	margin-top: -$height / 2
+	margin-left: -$width / 2
+
+#graph
+	svg
+		border: $graph-border
+		background: $paper
+		+border-radius($default-radius)
+		overflow: visible
+		stroke: none
+		fill: $home-team
+		line
+			stroke: #000

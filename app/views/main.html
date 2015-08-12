@@ -1,0 +1,25 @@
+<div class="jumbotron">
+  <h1>./</h1>
+  <p class="lead">
+    See the action that transpired at a glance
+  </p>
+  <small>Inspired by a similar data visualization found in the Memphis Grizzlies Android/iOS app</small>
+</div>
+
+<div id='graph'>
+  <svg  width='100%'
+        height='100%'
+        ng-attr-view_Box='-50 -{{(gameData.largestLead * 20) + 50}} {{gameData.totalGameTime}} {{((gameData.largestLead * 2) * 20) + 100}}'
+        preserveAspectRatio='xMaxYMid'>
+    <line x1='0' y1='0' x2='3600' y2='0'/>
+    <g ng-repeat='event in gameData.events'>
+      <rect ng-attr-x='{{(event.period - 1) * 720 + 720 - event.gameClock}}'
+            ng-attr-y='{{(event.margin | homeLeads) * 20}}'
+            ng-attr-height='{{(event.margin | abs) * 20}}'
+            width='5'/>
+      <circle ng-attr-cx='{{(event.period - 1) * 720 + 720 - event.gameClock}}'
+              ng-attr-cy='{{(event.margin) * 20}}'
+              r='10'/>
+    </g>
+  </svg>
+</div>
