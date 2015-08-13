@@ -6,9 +6,9 @@ angular.module('gameFlowApp')
 			parse: function(data) {
 				// constants representing headers for the returned data array
 				//  GAME_ID = 0; not used
-				var EVENTNUM = 1;
-				var EVENTMSGTYPE = 2;
-				var EVENTMSGACTIONTYPE = 3;
+				//  EVENTNUM = 1;
+				//  EVENTMSGTYPE = 2;
+				//  EVENTMSGACTIONTYPE = 3;
 				var PERIOD = 4;
 				//  WCTIMESTRING = 5; not used
 				var PCTIMESTRING = 6;
@@ -17,7 +17,7 @@ angular.module('gameFlowApp')
 				var VISITORDESCRIPTION = 9;
 				var SCORE = 10;
 				//  SCOREMARGIN = 11; not used
-				var START_OF_PERIOD = 12;
+				//  START_OF_PERIOD = 12;
 
 				var MINUTES_PER_QUARTER = 12;
 				var MINUTES_PER_OT = 5;
@@ -28,11 +28,11 @@ angular.module('gameFlowApp')
 				gameEvents = data.resultSets[0].rowSet;
 				periods = gameEvents[gameEvents.length - 1][PERIOD];
 				totalGameTime = function(periods) {
-					var regulationLength = 4 * MINUTES_PER_QUARTER * SECONDS_PER_MINUTE;
+					var gameLength = 4 * MINUTES_PER_QUARTER * SECONDS_PER_MINUTE;
 					if(periods > 4) {
-						return regulationLength + (periods - 4) * (MINUTES_PER_OT * SECONDS_PER_MINUTE);
+						gameLength += (periods - 4) * (MINUTES_PER_OT * SECONDS_PER_MINUTE);
 					}
-					return regulationLength;
+					return gameLength;
 				}(periods);
 
 				parsed = {
@@ -53,7 +53,7 @@ angular.module('gameFlowApp')
 
 					eventData = gameEvents[i];
 
-					if(eventData[SCORE] !== null) {
+					if(eventData[SCORE]) {
 						parsed.events[scoringEventIndex] = {};
 						event = parsed.events[scoringEventIndex];
 						scoringEventIndex++;
@@ -61,13 +61,13 @@ angular.module('gameFlowApp')
 						event.period = eventData[PERIOD];
 						event.gameClock = TimeConvert.strToSec(eventData[PCTIMESTRING]);
 
-						if(eventData[HOMEDESCRIPTION] !== null) {
+						if(eventData[HOMEDESCRIPTION]) {
 							event.description += eventData[HOMEDESCRIPTION] + ' ';
 						}
-						if(eventData[NEUTRALDESCRIPTION] !== null) {
+						if(eventData[NEUTRALDESCRIPTION]) {
 							event.description += eventData[NEUTRALDESCRIPTION] + ' ';
 						}
-						if(eventData[VISITORDESCRIPTION] !== null) {
+						if(eventData[VISITORDESCRIPTION]) {
 							event.description += eventData[VISITORDESCRIPTION] + ' ';
 						}
 
