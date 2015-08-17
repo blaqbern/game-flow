@@ -1,31 +1,77 @@
 'use strict';
 
 angular.module('gameFlowApp')
-	.filter('arcLeftEndpoint', function() {
+  .factory('EventMarkerSettings', function() {
+    var multiplier = 20;
+    var circularDecorationDiam = 15;
+    return {
+      setSVGParams: function() {
+      },
+      multiplier: function() {
+        return multiplier;
+      },
+      setMultiplier: function(val) {
+        multiplier = val;
+      },
+      circularDecorationDiam: function() {
+        return circularDecorationDiam;
+      },
+      setCircularDecorationDiam: function(val) {
+        circularDecorationDiam = val;
+      }
+    };
+  });
+
+angular.module('gameFlowApp')
+  .filter('fixAspectRatio', ['EventMarkerSettings', function(EventMarkerSettings) {
+    return function(gameData) {
+      var minX, minY, width, height, heightOriginal, aspectRatio, scaleFactor;
+      aspectRatio = {width: 16, height: 9};
+
+      heightOriginal = 18 * 2;
+      width = gameData.totalGameTime;
+      height = width * aspectRatio.height / aspectRatio.width;
+      scaleFactor = height / heightOriginal;
+      minX = 0;
+      minY = -gameData.largestLead * scaleFactor;
+      EventMarkerSettings.setMultiplier(scaleFactor);
+      EventMarkerSettings.setCircularDecorationDiam(scaleFactor * 7 / 16);
+
+      var bufferzone = 50;
+      return [
+        minX - bufferzone,
+        minY - bufferzone,
+        width + 2 * bufferzone,
+        height + 2 * bufferzone
+      ].join(' ');
+    };
+  }])
+	.filter('arcLeftEndpoint', ['EventMarkerSettings', function(EventMarkerSettings) {
 		return function(scoringEvent) {
       return [
-        scoringEvent.totalElaspsedSeconds - 5, // 5 is the radius of the circle decoration
-        (function(event) {
-          return (Math.abs(event.margin) * 20) - Math.sqrt(3) / 2; // event.margin - Math.sqrt(3) / 2;
-        }(scoringEvent))
+        scoringEvent.totalElaspsedSeconds - EventMarkerSettings.circularDecorationDiam(),
+        Math.abs(scoringEvent.margin) * EventMarkerSettings.multiplier()
       ].join(' ');
 		};
-	})
-	.filter('arc', function() {
+	}])
+	.filter('arc', ['EventMarkerSettings', function(EventMarkerSettings) {
 		return function(scoringEvent) {
       return [
-        10,
-        10,
+        EventMarkerSettings.circularDecorationDiam(),
+        EventMarkerSettings.circularDecorationDiam(),
         0,
         1,
         0,
-        scoringEvent.totalElaspsedSeconds + 5,
-        (function(event) {
-          return (Math.abs(event.margin) * 20) - Math.sqrt(3) / 2; // event.margin - Math.sqrt(3) / 2;
-        }(scoringEvent))
+        scoringEvent.totalElaspsedSeconds + EventMarkerSettings.circularDecorationDiam(),
+        Math.abs(scoringEvent.margin) * EventMarkerSettings.multiplier()
       ].join(', ');
 		};
-	})
+	}])
+  .filter('scale', ['EventMarkerSettings', function(EventMarkerSettings) {
+    return function(one) {
+      return one * EventMarkerSettings.circularDecorationDiam();
+    };
+  }])
   .filter('setDirection', function(){
     return function(scoringEvent) {
       return scoringEvent.margin <= 0 ? 'rotate(180 ' + scoringEvent.totalElaspsedSeconds + ' 0)' : '';

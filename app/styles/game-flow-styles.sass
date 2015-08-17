@@ -1,9 +1,10 @@
 @import compass/css3
 
-$paper: #f4fdfa
-$home-team: rgba(#0a8, 0.5)
+$paper: #fffff3
+$home-team: rgba(#d0103a, 0.5)
+$away-team: rgba(#7399c6, 0.5)
 
-$graph-border: 1px solid darken($paper, 35%)
+$graph-border: 1px solid darken($paper, 15%)
 
 $default-radius: 8px
 
@@ -17,12 +18,23 @@ $default-radius: 8px
 	margin-left: -$width / 2
 
 #graph
+	padding: 20px
+	border: $graph-border
+	background: $paper
 	svg
-		border: $graph-border
-		background: $paper
+		overflow: visible
 		+border-radius($default-radius)
 		overflow: visible
 		stroke: none
-		fill: $home-team
+		.home
+			fill: $home-team
+		.away
+			fill: $away-team
 		line
 			stroke: #000
+		path, circle
+			cursor: pointer
+			z-index: 1
+			&:hover
+				fill: lighten($home-team, 20%)
+				z-index: 2

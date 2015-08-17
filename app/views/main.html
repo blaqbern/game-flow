@@ -8,18 +8,21 @@
 
 <div id='graph'>
   <svg  width='100%' height='100%'
-        ng-attr-view_Box='-50 -{{(gameData.largestLead * 20) + 50}} {{gameData.totalGameTime + 100}} {{((gameData.largestLead * 2) * 20) + 100}}'
+        ng-attr-view_Box='{{gameData | fixAspectRatio}}'
         preserveAspectRatio='xMaxYMid'>
         <line x1='0' y1='0' x2='3600' y2='0'/>
     <g ng-repeat='play in gameData.events'>
-      <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' r='10' ng-show='play.margin === 0'/>
+      <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='home' ng-show='play.margin === 0'/>
+      <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='away' ng-show='play.margin === 0'/>
       <path ng-attr-d=' M {{play.totalElaspsedSeconds}} 0
                         L {{play | arcLeftEndpoint}}
                         A {{play | arc}}
                         Z'
             ng-attr-transform='{{play | setDirection}}'
+            ng-class='{home: play.margin < 0, away: play.margin > 0}'
             ng-hide='play.margin === 0'/>
     </g>
   </svg>
 </div>
-<!-- ng-attr-view_Box='{{gameData | keepAspectRatio}}' -->
+<!-- ng-attr-view_Box='{{gameData | fixAspectRatio}}' -->
+<!-- '-50 -{{(gameData.largestLead * 20) + 50}} {{gameData.totalGameTime}} {{((gameData.largestLead * 2) * 20) + 100}}' -->
