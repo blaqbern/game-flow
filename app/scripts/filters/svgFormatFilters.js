@@ -25,6 +25,9 @@ angular.module('gameFlowApp')
 angular.module('gameFlowApp')
   .filter('fixAspectRatio', ['EventMarkerSettings', function(EventMarkerSettings) {
     return function(gameData) {
+      if(!gameData) {
+        return '0 0 0 0';
+      }
       var minX, minY, width, height, heightOriginal, aspectRatio, scaleFactor;
       aspectRatio = {width: 16, height: 9};
 
