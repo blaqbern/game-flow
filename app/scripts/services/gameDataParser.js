@@ -4,20 +4,16 @@ angular.module('gameFlowApp')
 	.factory('GameDataParser', ['TimeConvert', function(TimeConvert) {
 		return {
 			parse: function(data) {
-				// constants representing headers for the returned data array
-				//  GAME_ID = 0; not used
-				//  EVENTNUM = 1;
-				//  EVENTMSGTYPE = 2;
-				//  EVENTMSGACTIONTYPE = 3;
+				// stats.nba.com returns  an array of headers and an array of arrays of values,
+				// instead of an array of objects. So these constants map to the indexes of the
+				// corresponding values
+				// relevant game data headers
 				var PERIOD = 4;
-				//  WCTIMESTRING = 5; not used
 				var PCTIMESTRING = 6;
 				var HOMEDESCRIPTION = 7;
 				var NEUTRALDESCRIPTION = 8;
 				var VISITORDESCRIPTION = 9;
 				var SCORE = 10;
-				//  SCOREMARGIN = 11; not used
-				//  START_OF_PERIOD = 12;
 
 				var MIN_PER_QUARTER = 12;
 				var MIN_PER_OT = 5;
