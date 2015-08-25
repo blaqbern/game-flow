@@ -1,9 +1,26 @@
 <div class="jumbotron">
-  <h1>Grizzlies at Sixers<small> 13 Dec 2014</small></h1>
+  <div class="scoreboard">
+    <svg width="160px" height="160px" viewBox="0 0 160 160">
+      <use xlink:href='images/sprites.svg#grizzlies-logo'/>
+    </svg>
+    <div class="score-display">
+      <div class='away-score'>
+        {{gameData.awayScore}}
+      </div>
+      <div class='versus'>
+        @
+      </div>
+      <div class='home-score'>
+        {{gameData.homeScore}}
+      </div>
+    </div>
+    <svg width="160px" height="160px" viewBox="0 0 160 160">
+      <use xlink:href='images/sprites.svg#sixers-logo'/>
+    </svg>
+  </div>
   <p class="lead">
-    See the action that transpired at a glance
+    Grizzlies at Sixers, 13 Dec 2014
   </p>
-  <small>Inspired by a similar data visualization found in the Memphis Grizzlies Android/iOS app</small>
 </div>
 
 <div id='graph'>

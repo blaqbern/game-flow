@@ -17,6 +17,27 @@ $default-radius: 8px
 	margin-top: -$height / 2
 	margin-left: -$width / 2
 
+body
+	line-height: 1.5em
+
+.scoreboard,
+.score-display,
+.home-score,
+.away-score,
+.versus
+	display: inline-block
+
+.scoreboard
+	position: relative
+
+.score-display
+	width: 80px
+	height: 100%
+
+.versus
+	+centered(50px, 0)
+	font-size: 2.5em
+
 #graph
 	padding: 20px
 	border: $graph-border
