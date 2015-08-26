@@ -36,7 +36,7 @@ angular.module('gameFlowApp')
 					periods: periods,
 					totalGameTime: totalGameTime,
 					largestLead: 0,
-					events: {}
+					events: []
 				};
 
 				var homeScore = 0;
