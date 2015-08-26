@@ -5,19 +5,22 @@
     </svg>
     <div class="score-display">
       <div class='away-score'>
-        {{gameData.awayScore}}
+        {{gameData.events[gameData.events.length - 1].awayScore}}
       </div>
       <div class='versus'>
         @
       </div>
       <div class='home-score'>
-        {{gameData.homeScore}}
+        {{gameData.events[gameData.events.length - 1].homeScore}}
       </div>
     </div>
     <svg width="160px" height="160px" viewBox="0 0 160 160">
       <use xlink:href='images/sprites.svg#sixers-logo'/>
     </svg>
   </div>
+  <p>
+    Final
+  </p>
   <p class="lead">
     Grizzlies at Sixers, 13 Dec 2014
   </p>
