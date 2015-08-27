@@ -1,37 +1,66 @@
-<div class="jumbotron">
-  <div class="scoreboard">
-    <svg width="160px" height="160px" viewBox="0 0 160 160">
-      <use xlink:href='images/sprites.svg#grizzlies-logo'/>
-    </svg>
-    <div class="score-display">
-      <div class='away-score'>
-        {{gameData.events[gameData.events.length - 1].awayScore}}
-      </div>
-      <div class='versus'>
-        @
-      </div>
-      <div class='home-score'>
-        {{gameData.events[gameData.events.length - 1].homeScore}}
-      </div>
-    </div>
-    <svg width="160px" height="160px" viewBox="0 0 160 160">
-      <use xlink:href='images/sprites.svg#sixers-logo'/>
-    </svg>
-  </div>
-  <p>
-    Final
-  </p>
+<div class="jumbotron clearfix">
   <p class="lead">
     Grizzlies at Sixers, 13 Dec 2014
   </p>
+  <div class="scoreboard">
+    <div class='versus'>
+      @
+    </div>
+    <div class='row'>
+      <div class='col-md-3'>
+        <svg width="160px" height="160px" viewBox="0 0 160 160">
+          <use xlink:href='images/sprites.svg#grizzlies-logo'/>
+        </svg>
+      </div>
+      <div class='col-md-6'>
+          <div class='row'>
+            <div class='col-md-5'>
+              <div class='scoreboard-item score'>
+                {{playDetails.awayScore}}
+              </div>
+            </div>
+            <div class='col-md-5 col-md-offset-2'>
+              <div class='scoreboard-item score'>
+                {{playDetails.homeScore}}
+              </div>
+            </div>
+          </div>
+          <div class='row period-and-clock'>
+            <div  ng-show='playDetails.gameClock'>
+              <div class='col-md-4 col-md-offset-2'>
+                <div class='scoreboard-item period'>
+                  {{playDetails.period | formatPeriod}}
+                </div>
+              </div>
+              <div class='col-md-4'>
+                <div class='scoreboard-item clock'>
+                  {{playDetails.gameClock | secToStr}}
+                </div>
+              </div>
+            </div>
+            <div  ng-show='!playDetails.gameClock && !playDetails.description'>
+              FINAL
+            </div>
+          </div>
+      </div>
+      <div class='col-md-3'>
+        <svg class='home-team-logo' width="160px" height="160px" viewBox="0 0 160 160">
+          <use xlink:href='images/sprites.svg#sixers-logo'/>
+        </svg>
+      </div>
+      <div class='col-md-12 play-description' ng-show='playDetails'>
+        {{playDetails.description}}
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id='graph'>
   <svg  width='100%' height='100%'
         ng-attr-view_Box='{{gameData | fixAspectRatio}}'
         preserveAspectRatio='xMaxYMid'>
-        <line x1='0' y1='0' x2='3600' y2='0'/>
-    <g ng-repeat='play in gameData.events'>
+    <line x1='0' y1='0' x2='3600' y2='0'/>
+    <g ng-repeat='play in gameData.events' ng-mouseover='setPlayDetails(play)'>
       <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='home' ng-show='play.margin === 0'/>
       <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='away' ng-show='play.margin === 0'/>
       <path ng-attr-d=' M {{play.totalElaspsedSeconds}} 0

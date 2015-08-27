@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('gameFlowApp')
-	.factory('GameDataParser', ['TimeConvert', function(TimeConvert) {
+	.factory('GameDataParser', ['strToSec', function(strToSec) {
 		return {
 			parse: function(data) {
 				// stats.nba.com returns  an array of headers and an array of arrays of values,
 				// instead of an array of objects. So these constants map to the indexes of the
 				// corresponding values
 				// relevant game data headers
+				var EVENTMSGTYPE = 2;
 				var PERIOD = 4;
 				var PCTIMESTRING = 6;
 				var HOMEDESCRIPTION = 7;
@@ -74,13 +75,15 @@ angular.module('gameFlowApp')
 
 					eventData = gameEvents[i];
 
-					if(eventData[SCORE]) {
+					if(eventData[SCORE] &&
+						eventData[EVENTMSGTYPE] !== 12 &&
+						eventData[EVENTMSGTYPE] !== 13) {
 						parsed.events[scoringEventIndex] = {};
 						event = parsed.events[scoringEventIndex];
 						scoringEventIndex++;
 
 						event.period = eventData[PERIOD];
-						event.gameClock = TimeConvert.strToSec(eventData[PCTIMESTRING]);
+						event.gameClock = strToSec(eventData[PCTIMESTRING]);
 						event.totalElaspsedSeconds = getElaspedSeconds(event);
 						event.description = buildDescriptionString(eventData);
 

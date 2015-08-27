@@ -1,45 +1,76 @@
 @import compass/css3
 
-$paper: #fffff3
+@font-face
+	font-family: 'source-code-pro'
+	src: url('fonts/SourceCodePro-Semibold.otf')
+
+$paper: #fafaf7
 $home-team: #d0103a
 $away-team: #7399c6
+$black: #336
 
 $graph-border: 1px solid darken($paper, 15%)
 
+$line-height: 40px
 $default-radius: 8px
 
-=centered($width, $height)
-	position: absolute
-	height: $height
+=centered($width, $position)
+	position: $position
 	width: $width
-	top: 50%
 	left: 50%
-	margin-top: -$height / 2
 	margin-left: -$width / 2
 
 body
-	line-height: 1.5em
+	line-height: $line-height
 
-.scoreboard,
-.score-display,
-.home-score,
-.away-score,
-.versus
-	display: inline-block
+.clearfix:after
+	content: ''
+	clear: both
 
 .scoreboard
 	position: relative
 
-.score-display
-	width: 80px
-	height: 100%
-
 .versus
-	+centered(50px, 0)
+	font-size: 3em
+	+centered(50px, absolute)
+
+.period-and-clock
+	margin-top: 20px
+
+.play-description
+	margin-top: 10px
+	font-size: 2em
+
+
+.scoreboard-item
+	font-family: 'source-code-pro'
+	border: 1px solid $black
+	color: $black
+
+.score
+	+centered(100px, relative)
+	font-size: 4em
+	line-height: $line-height + 20px
+
+.clock
+	+centered(140px, relative)
 	font-size: 2.5em
+
+.period
+	+centered(70px, relative)
+	font-size: 2.5em
+
+.away-team-logo,
+.away-score
+	float: left
+
+.home-team-logo,
+.home-score
+	float: right
 
 #graph
 	padding: 20px
+	margin-bottom: 20px
 	border: $graph-border
 	background: $paper
 	svg
