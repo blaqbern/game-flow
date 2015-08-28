@@ -7,9 +7,7 @@
 $paper: #fafaf7
 $home-team: #d0103a
 $away-team: #7399c6
-$black: #336
-
-$graph-border: 1px solid darken($paper, 15%)
+$black: #113
 
 $line-height: 40px
 $default-radius: 8px
@@ -22,6 +20,9 @@ $default-radius: 8px
 
 body
 	line-height: $line-height
+
+.jumbotron
+	margin-top: 20px
 
 .clearfix:after
 	content: ''
@@ -41,14 +42,13 @@ body
 	margin-top: 10px
 	font-size: 2em
 
-
 .scoreboard-item
 	font-family: 'source-code-pro'
-	border: 1px solid $black
 	color: $black
 
 .score
 	+centered(100px, relative)
+	border: 1px solid $black
 	font-size: 4em
 	line-height: $line-height + 20px
 
@@ -69,10 +69,17 @@ body
 	float: right
 
 #graph
-	padding: 20px
 	margin-bottom: 20px
-	border: $graph-border
 	background: $paper
+	.home-team-leads,
+	.away-team-leads
+		+centered(200px, relative)
+		font-size: 1.75em
+		text-align: center
+	.home-team-leads
+		color: $home-team
+	.away-team-leads
+		color: $away-team
 	svg
 		+border-radius($default-radius)
 		stroke: none

@@ -8,7 +8,7 @@
     </div>
     <div class='row'>
       <div class='col-md-3'>
-        <svg width="160px" height="160px" viewBox="0 0 160 160">
+        <svg class='away-team-logo' width="100%" viewBox="0 0 160 160">
           <use xlink:href='images/sprites.svg#grizzlies-logo'/>
         </svg>
       </div>
@@ -44,7 +44,7 @@
           </div>
       </div>
       <div class='col-md-3'>
-        <svg class='home-team-logo' width="160px" height="160px" viewBox="0 0 160 160">
+        <svg class='home-team-logo' width="100%" viewBox="0 0 160 160">
           <use xlink:href='images/sprites.svg#sixers-logo'/>
         </svg>
       </div>
@@ -56,10 +56,23 @@
 </div>
 
 <div id='graph'>
+  <div class='home-team-leads'>76ers lead</div>
   <svg  width='100%' height='100%'
         ng-attr-view_Box='{{gameData | fixAspectRatio}}'
         preserveAspectRatio='xMaxYMid'>
-    <line x1='0' y1='0' x2='3600' y2='0'/>
+    <line x1='0' y1='0' ng-attr-x2='{{gameData.totalGameTime}}' y2='0'/>
+    <g ng-repeat='(period, info) in gameData.periods'>
+      <rect ng-attr-x='{{info.start}}' ng-attr-y='-{{gameData | graphHeight}}'
+            ng-attr-width='{{info.length}}' height='100%'
+            fill='none' stroke='#eed' stroke-width='5'/>
+      <text ng-attr-x='{{info.start + info.length / 2}}'
+            ng-attr-y='{{-(gameData | graphHeight) + 100}}'
+            style='font-family: source-code-pro;
+                   font-size  : 100;
+                   fill       : #eed;
+                   stroke     : none;'
+            text-anchor='middle'>{{period}}</text>
+    </g>
     <g ng-repeat='play in gameData.events' ng-mouseover='setPlayDetails(play)'>
       <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='home' ng-show='play.margin === 0'/>
       <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='away' ng-show='play.margin === 0'/>
@@ -72,4 +85,5 @@
             ng-hide='play.margin === 0'/>
     </g>
   </svg>
+  <div class='away-team-leads'>Grizzlies lead</div>
 </div>

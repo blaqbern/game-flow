@@ -32,9 +32,27 @@ angular.module('gameFlowApp')
 					return gameLength;
 				}(periods);
 
+				var getPeriodArray = function(periods) {
+					var p = {};
+					for(var i = 1; i <= periods; i++) {
+						if(i < 5) {
+							p['Q' + i] = {};
+							p['Q' + i].start = i * 720 - 720;
+							p['Q' + i].length = 720;
+						}
+						else {
+							p['OT' + (i - 4)] = {};
+							p['OT' + (i - 4)].start = 720 * 4 + (i-4) * 300 - 300;
+							p['OT' + (i - 4)].length = 300;
+						}
+					}
+					console.log(p);
+					return p;
+				};
+
 				parsed = {
 					gameId: gameEvents[0][0],
-					periods: periods,
+					periods: getPeriodArray(periods),
 					totalGameTime: totalGameTime,
 					largestLead: 0,
 					events: []

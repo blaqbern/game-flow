@@ -2,8 +2,9 @@
 
 angular.module('gameFlowApp')
   .factory('EventMarkerSettings', function() {
-    var multiplier = 20;
-    var circularDecorationDiam = 15;
+    var multiplier;
+    var circularDecorationDiam;
+    var bufferSize;
     return {
       setSVGParams: function() {
       },
@@ -18,6 +19,12 @@ angular.module('gameFlowApp')
       },
       setCircularDecorationDiam: function(val) {
         circularDecorationDiam = val;
+      },
+      bufferSize: function() {
+        return bufferSize;
+      },
+      setBufferSize: function(size) {
+        bufferSize = size;
       }
     };
   });
@@ -29,18 +36,19 @@ angular.module('gameFlowApp')
         return '0 0 0 0';
       }
       var minX, minY, width, height, heightOriginal, aspectRatio, scaleFactor;
-      aspectRatio = {width: 16, height: 9};
+      aspectRatio = {width: 2, height: 1};
 
-      heightOriginal = 18 * 2;
+      heightOriginal = gameData.largestLead * 2;
       width = gameData.totalGameTime;
       height = width * aspectRatio.height / aspectRatio.width;
       scaleFactor = height / heightOriginal;
       minX = 0;
       minY = -gameData.largestLead * scaleFactor;
+      var bufferzone = 50;
       EventMarkerSettings.setMultiplier(scaleFactor);
       EventMarkerSettings.setCircularDecorationDiam(scaleFactor * 7 / 16);
+      EventMarkerSettings.setBufferSize(bufferzone);
 
-      var bufferzone = 50;
       return [
         minX - bufferzone,
         minY - bufferzone,
@@ -79,4 +87,10 @@ angular.module('gameFlowApp')
     return function(scoringEvent) {
       return scoringEvent.margin <= 0 ? 'rotate(180 ' + scoringEvent.totalElaspsedSeconds + ' 0)' : '';
     };
-  });
+  })
+  .filter('graphHeight', ['EventMarkerSettings', function(EventMarkerSettings) {
+    return function(gameData) {
+      if(!gameData) {return '0';}
+      return gameData.largestLead * EventMarkerSettings.multiplier() + EventMarkerSettings.bufferSize();
+    };
+  }]);
