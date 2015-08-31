@@ -1,6 +1,6 @@
 <div class="jumbotron clearfix">
   <p class="lead">
-    Grizzlies at Sixers, 13 Dec 2014
+    Grizzlies @ 76ers, 13 Dec 2014
   </p>
   <div class="scoreboard">
     <div class='versus'>
@@ -38,7 +38,7 @@
                 </div>
               </div>
             </div>
-            <div  ng-show='!playDetails.gameClock && !playDetails.description'>
+            <div  ng-show='playDetails.final'>
               FINAL
             </div>
           </div>
@@ -48,7 +48,7 @@
           <use xlink:href='images/sprites.svg#sixers-logo'/>
         </svg>
       </div>
-      <div class='col-md-12 play-description' ng-show='playDetails'>
+      <div class='col-md-12 play-description'>
         {{playDetails.description}}
       </div>
     </div>
@@ -73,8 +73,12 @@
                    stroke     : none;'
             text-anchor='middle'>{{period}}</text>
     </g>
-    <g ng-repeat='play in gameData.events' ng-mouseover='setPlayDetails(play)'>
-      <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='home' ng-show='play.margin === 0'/>
+    <g ng-repeat='play in gameData.events'
+       ng-mouseenter='setPlayDetails(play, $event)' ng-mouseleave='resetMarker($event)'
+       stroke='#222'>
+      <circle class='home' ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0'
+              ng-attr-r='{{1 | scale}}'
+              ng-show='play.margin === 0'/>
       <circle ng-attr-cx='{{play.totalElaspsedSeconds}}' cy='0' ng-attr-r='{{1 | scale}}' class='away' ng-show='play.margin === 0'/>
       <path ng-attr-d=' M {{play.totalElaspsedSeconds}} 0
                         L {{play | arcLeftEndpoint}}
